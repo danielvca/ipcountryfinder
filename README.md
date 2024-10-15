@@ -45,6 +45,8 @@ GeoLite2-City.mmdb
 GeoLite2-ASN.mmdb
 ````
 
+Create a directory called: mdb
+
 Place the .mmdb files in the mdb directory.
 
 3. Build the Docker image:
