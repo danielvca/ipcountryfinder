@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boomera Country Finder</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+        }
+        .table-responsive {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="text-center">Boomera Country Finder</h1>
+        <p class="text-center">Your IP and location details are shown below:</p>
+
+        <div id="loading" class="text-center">
+            <p>Loading data, please wait...</p>
+        </div>
+
+        <div id="data-table" class="table-responsive" style="display: none;">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Field</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>IP Address</td><td id="ip"></td></tr>
+                    <tr><td>IP Decimal</td><td id="ip_decimal"></td></tr>
+                    <tr><td>Country</td><td id="country"></td></tr>
+                    <tr><td>Country ISO Code</td><td id="country_iso"></td></tr>
+                    <tr><td>In EU?</td><td id="country_eu"></td></tr>
+                    <tr><td>Region</td><td id="region_name"></td></tr>
+                    <tr><td>Region Code</td><td id="region_code"></td></tr>
+                    <tr><td>Postal Code</td><td id="zip_code"></td></tr>
+                    <tr><td>City</td><td id="city"></td></tr>
+                    <tr><td>Latitude</td><td id="latitude"></td></tr>
+                    <tr><td>Longitude</td><td id="longitude"></td></tr>
+                    <tr><td>Timezone</td><td id="time_zone"></td></tr>
+                    <tr><td>ASN</td><td id="asn"></td></tr>
+                    <tr><td>ASN Organization</td><td id="asn_org"></td></tr>
+                    <tr><td>User Agent</td><td id="user_agent"></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('/json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("data-table").style.display = "block";
+                
+                document.getElementById("ip").textContent = data.ip;
+                document.getElementById("ip_decimal").textContent = data.ip_decimal || 'N/A';
+                document.getElementById("country").textContent = data.country;
+                document.getElementById("country_iso").textContent = data.country_iso;
+                document.getElementById("country_eu").textContent = data.country_eu ? 'Yes' : 'No';
+                document.getElementById("region_name").textContent = data.region_name || 'N/A';
+                document.getElementById("region_code").textContent = data.region_code || 'N/A';
+                document.getElementById("zip_code").textContent = data.zip_code || 'N/A';
+                document.getElementById("city").textContent = data.city || 'N/A';
+                document.getElementById("latitude").textContent = data.latitude || 'N/A';
+                document.getElementById("longitude").textContent = data.longitude || 'N/A';
+                document.getElementById("time_zone").textContent = data.time_zone || 'N/A';
+                document.getElementById("asn").textContent = data.asn || 'N/A';
+                document.getElementById("asn_org").textContent = data.asn_org || 'N/A';
+                document.getElementById("user_agent").textContent = data.user_agent ? data.user_agent.raw_value : 'N/A';
+            })
+            .catch(error => {
+                document.getElementById("loading").textContent = "Error fetching data.";
+            });
+        });
+    </script>
+</body>
+</html>
